@@ -1,0 +1,18 @@
+<h2>Table of Contents</h2>
+<ul>
+  <% @routes.each do |route| %>
+    <li>
+    <a href="#<%= Digest::SHA1.hexdigest "#{route[:verb]} #{route[:path]}" %>"><%= route[:verb] %> <%= route[:path] %></a>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Documentation</h2>
+
+<% @routes.each do |route| %>
+  <h3 id="<%= Digest::SHA1.hexdigest "#{route[:verb]} #{route[:path]}" %>">
+    <%= route[:verb] %> <%= route[:path] %>
+  </h3>
+  <%= route[:html_comment].html_safe %>
+<% end %>
+
