@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Apidocs</title>
-  <%= stylesheet_link_tag    "apidocs/application", media: "all" %>
-  <%= javascript_include_tag "apidocs/application" %>
-  <%= csrf_meta_tags %>
+    <title>Apidocs</title>
+    <%= stylesheet_link_tag "apidocs/application", media: "all" %>
+    <%= javascript_include_tag "apidocs/application" %>
+    <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
-
+<div class="container-fluid">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <%= link_to 'APIDOC', root_path, class: 'navbar-brand' %>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="search-query" id="search-input" placeholder="Search">
+                </div>
+            </form>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-md-2">
+            <nav><%= yield(:nav) %></nav>
+        </div>
+        <div class="col-md-10">
+            <article id="main-content"><%= yield %></article>
+        </div>
+    </div>
+    <%= link_to "&#8634;".html_safe, flush_path, id: 'reload' %>
+</div>
 </body>
 </html>

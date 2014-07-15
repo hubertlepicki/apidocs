@@ -36,22 +36,19 @@ module Apidocs
       inspector = ActionDispatch::Routing::RoutesInspector.new(all_routes)
       routes = inspector.send(:collect_routes, inspector.send(:filter_routes, nil)).select {|r| r[:reqs] =~ /#/}
 
+      formatter = RDoc::Markup::ToHtml.new(RDoc::Options.new)
+
       routes = routes.map do |r|
         { verb: r[:verb],
-          path: r[:path],
+          path: r[:path].sub('(.:format)',''),
           class_name: gen_class_name(r),
           action_name: gen_action_name(r)
         }
       end
 
       routes.each do |r|
-        r[:doc] = document_route(r)
-      end
-
-      formatter = RDoc::Markup::ToHtml.new(RDoc::Options.new)
-
-      routes.each do |r|
-        r[:html_comment] = r[:doc] ? r[:doc].accept(formatter) : ""
+        doc = document_route(r)
+        r[:html_comment] = doc ? doc.accept(formatter) : ""
       end
 
       routes.select {|r| r[:class_name] != "ApidocsController" }
@@ -62,7 +59,6 @@ module Apidocs
     def document_route(r)
       klas = @store.instance_variable_get("@classes_hash")[r[:class_name]]
       return nil if klas.nil?
-      puts klas.methods_hash["##{r[:action_name]}"].try(:comment)
       klas.methods_hash["##{r[:action_name]}"].try(:comment).try(:parse)
     end
 
