@@ -1,0 +1,1 @@
+Rails.cache.delete("routes_rdoc_html")

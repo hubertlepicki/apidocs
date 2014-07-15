@@ -1,0 +1,22 @@
+pre {
+    background-color: black;
+    color: #999;
+    font-family: "Lucida Console", Monaco, monospace;
+    padding: 10px;
+    max-width: 100%;
+    overflow: auto;
+}
+
+#reload {
+    float: right;
+    font-size: 120%;
+}
+
+.action-name {
+    border-bottom: 1px black dotted;
+}
+
+#main-content h2 a,
+#main-content h1 a {
+    display: none;
+}
