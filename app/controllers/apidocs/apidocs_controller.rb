@@ -6,9 +6,9 @@ module Apidocs
 
     def index
       @routes = routes_rdoc
-	if params[:search]
+      if params[:search]
 	@searchinput = params[:search]
-	end
+      end
       if params[:path]
         @route = routes_rdoc[params[:path]]
       else
@@ -21,11 +21,6 @@ module Apidocs
       end
     end
 
-    def flush
-      Rails.cache.delete("routes_rdoc_html")
-      redirect_to :back
-    end
-
     private
     def routes_rdoc
       Rails.cache.fetch("routes_rdoc_html") do
@@ -34,7 +29,6 @@ module Apidocs
       end
     end
 
-    protected
     def authenticate
       if Apidocs.configuration.http_username && Apidocs.configuration.http_password
         authenticate_or_request_with_http_basic do |u, p|
