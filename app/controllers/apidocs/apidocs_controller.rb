@@ -6,7 +6,6 @@ module Apidocs
 
     def index
       @routes = routes_rdoc
-
       if params[:search]
         @searchinput = params[:search]
       end
@@ -21,11 +20,6 @@ module Apidocs
           @intro = "Please put API.rdoc into "+Rails.root.to_s
         end
       end
-    end
-
-    def flush
-      Rails.cache.delete("routes_rdoc_html")
-      redirect_to :back
     end
 
     private
@@ -46,4 +40,3 @@ module Apidocs
     end
   end
 end
-
