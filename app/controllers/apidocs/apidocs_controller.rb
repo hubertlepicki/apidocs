@@ -2,6 +2,8 @@ require_dependency "apidocs/application_controller"
 
 module Apidocs
   class ApidocsController < ApplicationController
+    before_action :authenticate
+
     def index
       @routes = routes_rdoc
       if params[:path]
@@ -28,5 +30,15 @@ module Apidocs
         routes.group_by { |r| r[:path] }
       end
     end
+
+    protected
+    def authenticate
+      if Apidocs.configuration.http_username && Apidocs.configuration.http_password
+        authenticate_or_request_with_http_basic do |u, p|
+          u == Apidocs.configuration.http_username && Digest::MD5.hexdigest(p) == Apidocs.configuration.http_password
+        end
+      end
+    end
   end
 end
+
