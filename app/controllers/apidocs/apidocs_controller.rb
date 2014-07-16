@@ -7,8 +7,9 @@ module Apidocs
     def index
       @routes = routes_rdoc
       if params[:search]
-	@searchinput = params[:search]
+        @searchinput = params[:search]
       end
+
       if params[:path]
         @route = routes_rdoc[params[:path]]
       else
@@ -21,7 +22,13 @@ module Apidocs
       end
     end
 
+    def flush
+      Rails.cache.delete("routes_rdoc_html")
+      redirect_to :back
+    end
+
     private
+
     def routes_rdoc
       Rails.cache.fetch("routes_rdoc_html") do
         routes = Apidocs::ApiDocs.new.generate_html
@@ -38,4 +45,3 @@ module Apidocs
     end
   end
 end
-
