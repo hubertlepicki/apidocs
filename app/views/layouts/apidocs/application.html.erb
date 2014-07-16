@@ -14,7 +14,7 @@
             <%= link_to 'APIDOC', root_path, class: 'navbar-brand' %>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <input type="text" class="search-query" id="search-input" placeholder="Search">
+                    <input type="text"	value='<%= @searchinput %>' class="search-query" id="search-input" placeholder="Filter">
                 </div>
             </form>
         </div>
