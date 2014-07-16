@@ -6,9 +6,11 @@ module Apidocs
 
     def index
       @routes = routes_rdoc
-	if params[:search]
-	@searchinput = params[:search]
-	end
+
+      if params[:search]
+        @searchinput = params[:search]
+      end
+
       if params[:path]
         @route = routes_rdoc[params[:path]]
       else
@@ -27,6 +29,7 @@ module Apidocs
     end
 
     private
+
     def routes_rdoc
       Rails.cache.fetch("routes_rdoc_html") do
         routes = Apidocs::ApiDocs.new.generate_html
@@ -34,7 +37,6 @@ module Apidocs
       end
     end
 
-    protected
     def authenticate
       if Apidocs.configuration.http_username && Apidocs.configuration.http_password
         authenticate_or_request_with_http_basic do |u, p|
