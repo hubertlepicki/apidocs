@@ -22,11 +22,6 @@ module Apidocs
       end
     end
 
-    def flush
-      Rails.cache.delete("routes_rdoc_html")
-      redirect_to :back
-    end
-
     private
 
     def routes_rdoc
