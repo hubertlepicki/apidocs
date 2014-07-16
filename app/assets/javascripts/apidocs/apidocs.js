@@ -1,9 +1,8 @@
 $(function () {
-    $("#nav-button").click(function () {
-        $.get(this.getAttribute("href"), function (data) {
-            $("#main-content").html(data);
-        });
+    $('.nav-button').click(function () {
+        window.location.href = this.getAttribute("href") + '&search=' + $('#search-input').val();
         return false;
     });
     $('#search-input').fastLiveFilter('#search-list');
+    $('#search-input').trigger('change');
 });
