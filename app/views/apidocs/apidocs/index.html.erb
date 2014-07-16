@@ -1,7 +1,7 @@
 <% content_for :nav do %>
     <ul id="search-list" class="list-unstyled">
         <% @routes.each do |path, route| %>
-            <li><%= link_to path, root_path(path: path), class: 'nav-button' %></li>
+            <li><%= link_to path, root_path(path: path), class: 'nav-button', title: path %></li>
         <% end %>
     </ul>
 <% end %>
