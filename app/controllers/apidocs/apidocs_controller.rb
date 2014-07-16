@@ -6,6 +6,9 @@ module Apidocs
 
     def index
       @routes = routes_rdoc
+	if params[:search]
+	@searchinput = params[:search]
+	end
       if params[:path]
         @route = routes_rdoc[params[:path]]
       else
