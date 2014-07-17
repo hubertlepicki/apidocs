@@ -3,6 +3,7 @@ require_dependency "apidocs/application_controller"
 module Apidocs
   class ApidocsController < ApplicationController
     before_action :authenticate
+    before_action :clean_cache, if: -> { Rails.env.development? }
 
     def index
       @routes = routes_rdoc
@@ -37,6 +38,10 @@ module Apidocs
           u == Apidocs.configuration.http_username && Digest::MD5.hexdigest(p) == Apidocs.configuration.http_password
         end
       end
+    end
+
+    def clean_cache
+      Rails.cache.delete("routes_rdoc_html")
     end
   end
 end
