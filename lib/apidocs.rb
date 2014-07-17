@@ -4,10 +4,34 @@ module Apidocs
   require 'rdoc'
   require 'action_dispatch/routing/inspector'
   require 'fileutils'
-  # This is class comment
+
   class ApiDocs < RDoc::RDoc
-    # generate_html entry point for on fly document generation
-    def generate_html
+    # Generate rdoc documentation and combine with routes
+    def documented_routes
+      generate_rdoc
+      apply_doc_to_routes
+    end
+
+    private
+
+    def apply_doc_to_routes
+      inspector = ActionDispatch::Routing::RoutesInspector.new(Rails.application.routes.routes)
+      routes = inspector.send(:collect_routes, inspector.send(:filter_routes, nil)).select { |r| filter_routes(r) }
+
+      formatter = RDoc::Markup::ToHtml.new(RDoc::Options.new)
+
+      routes.map do |r|
+        doc = document_route(r)
+        {verb: r[:verb],
+         path: r[:path].sub('(.:format)', ''),
+         class_name: gen_class_name(r),
+         action_name: gen_action_name(r),
+         html_comment: doc ? doc.accept(formatter) : ""
+        }
+      end
+    end
+
+    def generate_rdoc
       FileUtils.rm_rf(Rails.root.join('tmp/apidocs'))
       options = ["app/controllers", "--op=#{Rails.root.join('tmp/apidocs')}"]
 
@@ -31,31 +55,12 @@ module Apidocs
 
       parse_files @options.files
       @store.complete @options.visibility
-      Apidocs.configuration.regex_filter
-      all_routes = Rails.application.routes.routes
-      inspector = ActionDispatch::Routing::RoutesInspector.new(all_routes)
-      routes = inspector.send(:collect_routes, inspector.send(:filter_routes, nil))\
-         .select { |r| r[:reqs] =~ /#/ and (r[:path] =~ Apidocs.configuration.regex_filter) if Apidocs.configuration.regex_filter}
-
-      formatter = RDoc::Markup::ToHtml.new(RDoc::Options.new)
-
-      routes = routes.map do |r|
-        {verb: r[:verb],
-         path: r[:path].sub('(.:format)', ''),
-         class_name: gen_class_name(r),
-         action_name: gen_action_name(r)
-        }
-      end
-
-      routes.each do |r|
-        doc = document_route(r)
-        r[:html_comment] = doc ? doc.accept(formatter) : ""
-      end
-
-      routes.select { |r| r[:class_name] != "ApidocsController" }
     end
 
-    private
+    def filter_routes(r)
+      filter = Apidocs.configuration.regex_filter
+      r[:reqs].include? '#' and (filter.present? ? r[:path] =~ filter : true) and !r[:reqs].include? 'ApidocsController'
+    end
 
     def document_route(r)
       klas = @store.instance_variable_get("@classes_hash")[r[:class_name]]
@@ -74,9 +79,6 @@ module Apidocs
 
   class Configuration
     attr_accessor :regex_filter, :http_username, :http_password
-    def initialize
-      @regex_filter = /.*/
-    end
   end
 
   class << self
@@ -85,6 +87,10 @@ module Apidocs
 
   def self.configuration
     @configuration ||= Configuration.new
+  end
+
+  def self.configuration_clear
+    @configuration = Configuration.new
   end
 
   def self.configure

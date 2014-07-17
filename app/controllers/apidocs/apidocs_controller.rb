@@ -26,7 +26,7 @@ module Apidocs
 
     def routes_rdoc
       Rails.cache.fetch("routes_rdoc_html") do
-        routes = Apidocs::ApiDocs.new.generate_html
+        routes = Apidocs::ApiDocs.new.documented_routes
         routes.group_by { |r| r[:path] }
       end
     end
