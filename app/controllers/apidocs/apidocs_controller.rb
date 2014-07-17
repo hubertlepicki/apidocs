@@ -17,7 +17,7 @@ module Apidocs
           h = RDoc::Markup::ToHtml.new(RDoc::Options.new)
           @intro = h.convert(Rails.root.join('API.rdoc').read)
         rescue
-          @intro = "Please put API.rdoc into "+Rails.root.to_s
+          @intro = ""
         end
       end
     end

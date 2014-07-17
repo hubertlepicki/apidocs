@@ -22,4 +22,10 @@ Gem::Specification.new do |s|
   s.add_dependency "bootstrap-sass"
 
   s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "rails"
+  s.add_development_dependency "capybara"
+  s.add_development_dependency "poltergeist"
+  s.add_development_dependency "selenium-webdriver" # I just like to sometimes see the tests running
+  s.add_development_dependency "pry"
+  s.add_development_dependency "jquery-rails"
 end
