@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Apidocs</title>
+  <head>
+    <title>#{Apidocs.configuration.app_name} API</title>
     <%= stylesheet_link_tag "apidocs/application", media: "all" %>
     <%= javascript_include_tag "apidocs/application" %>
     <%= csrf_meta_tags %>
-</head>
-<body>
+  </head>
 
-<div class="container-fluid">
-    <nav class="navbar navbar-default" role="navigation">
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
-            <%= link_to 'APIDOC', root_path, class: 'navbar-brand' %>
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text"	value='<%= @searchinput %>' class="search-query" id="search-input" placeholder="Filter">
-                </div>
-            </form>
+          <%= link_to "#{Apidocs.configuration.app_name} API", root_path, class: 'navbar-brand' %>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text"	value='<%= @searchinput %>' class="search-query" id="search-input" placeholder="Filter">
+            </div>
+          </form>
         </div>
-    </nav>
-    <div class="row">
+      </nav>
+      <div class="row">
         <div class="col-md-2">
-            <nav><%= yield(:nav) %></nav>
+          <nav><%= yield(:nav) %></nav>
         </div>
         <div class="col-md-10">
-            <article id="main-content"><%= yield %></article>
+          <article id="main-content"><%= yield %></article>
         </div>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>

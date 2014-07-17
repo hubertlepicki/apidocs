@@ -6,4 +6,10 @@ feature 'Homepage', js: true do
 
     page.should have_css('h1', text: 'This is a sample dummy readme')
   end
+
+  scenario 'should show project title' do
+    visit '/apidocs'
+
+    page.should have_content("Dummy APP")
+  end
 end

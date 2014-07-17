@@ -26,4 +26,5 @@ It can be done in irb after requiring 'digest/md5'.
       config.regex_filter = /\A\/api/ # filter routes
       config.http_username = 'admin'  # optional http basic authorization 
       config.http_password = '5ebe2294ecd0e0f08eab7690d2a6ee69' # md5 hash for password
+      config.app_name = 'Test APP' # application name
     end

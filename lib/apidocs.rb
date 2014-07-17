@@ -73,7 +73,7 @@ module Apidocs
   end
 
   class Configuration
-    attr_accessor :regex_filter, :http_username, :http_password
+    attr_accessor :regex_filter, :http_username, :http_password, :app_name
     def initialize
       @regex_filter = /.*/
     end
