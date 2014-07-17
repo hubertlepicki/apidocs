@@ -12,3 +12,11 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+gem "rspec-rails"
+gem "rails"
+gem "capybara"
+gem "poltergeist"
+gem "selenium-webdriver" # I just like to sometimes see the tests running
+gem "jquery-rails"
+gem "pry"
+

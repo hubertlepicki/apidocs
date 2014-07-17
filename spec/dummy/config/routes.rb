@@ -1,5 +1,16 @@
 Rails.application.routes.draw do
   mount Apidocs::Engine => '/apidocs'
+
+  namespace :api do
+    resources :sessions
+    resource :foo
+  end
+
+  get "/api/bar" => "bars#index"
+
+  get "/something/else" => "somethings#else"
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
