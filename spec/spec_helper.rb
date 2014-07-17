@@ -6,9 +6,6 @@ require 'rspec/rails'
 
 Rails.backtrace_cleaner.remove_silencers!
 
-require 'capybara/poltergeist'
-Capybara.javascript_driver = :poltergeist
-
 RSpec.configure do |config|
   config.include RSpec::Matchers
   config.include Capybara::DSL, type: :feature

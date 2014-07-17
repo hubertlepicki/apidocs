@@ -1,6 +1,6 @@
 require_relative './features_helper'
 
-feature 'Homepage', js: true, driver: :selenium do
+feature 'Homepage', js: true do
   scenario 'should show API.rdoc rendered as HTML' do
     visit '/apidocs'
 

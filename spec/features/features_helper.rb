@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 require 'capybara/rspec'
 
-Capybara.javascript_driver = :poltergeist
-Capybara.default_driver = :poltergeist
-Capybara.default_wait_time = 10
+Capybara.javascript_driver = :selenium
+Capybara.default_driver = :selenium
+Capybara.default_wait_time = 5
 
