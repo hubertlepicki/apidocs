@@ -2,8 +2,7 @@ Rails.application.routes.draw do
   mount Apidocs::Engine => '/apidocs'
 
   namespace :api do
-    resources :sessions
-    resource :foo
+    resource :session, only: [:create, :destroy]
   end
 
   get "/api/bar" => "bars#index"
