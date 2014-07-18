@@ -10,9 +10,7 @@
 <% end %>
 <% if @route %>
     <% @route.each do |r| %>
-        <h3 class="action-name">
-            <%= r[:verb] %> <%= r[:path] %>
-        </h3>
+        <h3 class="action-name"><%= r[:verb] %> <%= r[:path] %></h3>
         <%= r[:html_comment].html_safe %>
     <% end %>
 <% end%>

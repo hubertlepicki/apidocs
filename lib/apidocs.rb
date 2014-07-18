@@ -21,11 +21,13 @@ module Apidocs
       formatter = RDoc::Markup::ToHtml.new(RDoc::Options.new)
 
       routes.map do |r|
-        doc = document_route(r)
+        class_name = gen_class_name(r)
+        action_name = gen_action_name(r)
+        doc = document_route(class_name, action_name)
         {verb: r[:verb],
          path: r[:path].sub('(.:format)', ''),
-         class_name: gen_class_name(r),
-         action_name: gen_action_name(r),
+         class_name: class_name,
+         action_name: action_name,
          html_comment: doc ? doc.accept(formatter) : ""
         }
       end
@@ -62,10 +64,10 @@ module Apidocs
       r[:reqs].include? '#' and (filter.present? ? r[:path] =~ filter : true) and !r[:reqs].include? 'ApidocsController'
     end
 
-    def document_route(r)
-      klas = @store.instance_variable_get("@classes_hash")[r[:class_name]]
+    def document_route(class_name, action_name)
+      klas = @store.instance_variable_get("@classes_hash")[class_name]
       return nil if klas.nil?
-      klas.methods_hash["##{r[:action_name]}"].try(:comment).try(:parse)
+      klas.methods_hash["##{action_name}"].try(:comment).try(:parse)
     end
 
     def gen_class_name(r)
