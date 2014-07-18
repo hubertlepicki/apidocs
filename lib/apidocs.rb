@@ -9,7 +9,7 @@ module Apidocs
     # generate_html entry point for on fly document generation
     def generate_html
       FileUtils.rm_rf(Rails.root.join('tmp/apidocs'))
-      options = ["app/controllers", "--op=#{Rails.root.join('tmp/apidocs')}"]
+      options = [Rails.root.join("app/controllers").to_s, "--op=#{Rails.root.join('tmp/apidocs')}"]
 
       self.store = RDoc::Store.new
 

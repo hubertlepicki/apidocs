@@ -3,7 +3,7 @@ require_dependency "apidocs/application_controller"
 module Apidocs
   class ApidocsController < ApplicationController
     before_action :authenticate
-    before_action :clean_cache, if: -> { Rails.env.development? }
+    before_action :clean_cache, if: -> { true || Rails.env.development? }
 
     def index
       @routes = routes_rdoc
