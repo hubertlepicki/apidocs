@@ -1,18 +1,22 @@
 <% content_for :nav do %>
-    <ul id="search-list" class="list-unstyled">
-        <% @routes.each do |path, route| %>
-            <li><%= link_to path, root_path(path: path), class: 'nav-button', title: path %></li>
-        <% end %>
-    </ul>
+  <ul id="search-list" class="list-unstyled">
+  <% @routes.each do |path, route| %>
+    <li><%= link_to path, root_path(path: path), class: 'nav-button', title: path %></li>
+  <% end %>
+  </ul>
 <% end %>
+
 <% if @intro %>
-    <%= @intro.html_safe %>
+  <%= @intro.html_safe %>
 <% end %>
+
 <% if @route %>
-    <% @route.each do |r| %>
-        <h3 class="action-name">
-            <%= r[:verb] %> <%= r[:path] %>
-        </h3>
-        <%= r[:html_comment].html_safe %>
-    <% end %>
+  <% @route.each do |r| %>
+
+    <h3 class="action-name">
+      <%= r[:verb] %> <%= r[:path] %>
+    </h3>
+
+    <%= r[:html_comment].html_safe %>
+  <% end %>
 <% end%>

@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>#{Apidocs.configuration.app_name} API</title>
+    <title><%= Apidocs.configuration.app_name %> API</title>
     <%= stylesheet_link_tag "apidocs/application", media: "all" %>
     <%= javascript_include_tag "apidocs/application" %>
     <%= csrf_meta_tags %>
   </head>
 
   <body>
-    <div class="container-fluid">
-      <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <%= link_to "#{Apidocs.configuration.app_name} API", root_path, class: 'navbar-brand' %>
-          <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input type="text"	value='<%= @searchinput %>' class="search-query" id="search-input" placeholder="Filter">
-            </div>
-          </form>
-        </div>
-      </nav>
+    <div class="container">
       <div class="row">
-        <div class="col-md-2">
-          <nav><%= yield(:nav) %></nav>
+        <nav class="navbar navbar-default" role="navigation">
+          <%= link_to "#{Apidocs.configuration.app_name} API", root_path, class: 'navbar-brand' %>
+        </nav>
+
+        <div class="col-md-3">
+          <div class="row">
+            <form class="col-md-12" role="search">
+              <div class="form-group">
+                <input type="text" value='<%= @searchinput %>' class="form-control" id="search-input" placeholder="Filter">
+              </div>
+
+              <nav><%= yield(:nav) %></nav>
+            </form>
+          </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9">
           <article id="main-content"><%= yield %></article>
         </div>
       </div>
