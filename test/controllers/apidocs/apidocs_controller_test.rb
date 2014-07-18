@@ -22,7 +22,7 @@ module Apidocs
       get(:index, path: '/products/new', use_route: 'apidocs')
       assert_response :success
       assert_select 'article#main-content h3', 'GET /products/new'
-      #assert_select 'article#main-content p', 'New Product action'
+      assert_select 'article#main-content p', 'New Product action'
 
     end
 

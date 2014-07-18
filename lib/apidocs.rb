@@ -35,7 +35,7 @@ module Apidocs
 
     def generate_rdoc
       FileUtils.rm_rf(Rails.root.join('tmp/apidocs'))
-      options = ["app/controllers", "--op=#{Rails.root.join('tmp/apidocs')}"]
+      options = ["--op=#{Rails.root.join('tmp/apidocs')}"]
 
       self.store = RDoc::Store.new
 
