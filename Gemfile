@@ -15,7 +15,7 @@ gemspec
 gem "rspec-rails"
 gem "rails"
 gem "capybara"
-gem "selenium-webdriver" # I just like to sometimes see the tests running
+gem "poltergeist", require: 'capybara/poltergeist'
 gem "jquery-rails"
 gem "pry"
 
