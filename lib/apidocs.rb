@@ -4,8 +4,12 @@ module Apidocs
   require 'rdoc'
   require 'action_dispatch/routing/inspector'
   require 'fileutils'
-  # This is class comment
+
+  # This is the main class that handles generation of documentation. It is a rip-off from
+  # RDOC itself. It probably needs optimization/adjustments, might be doing too much
+  # or there might be better way of doing things. But it works.
   class ApiDocs < RDoc::RDoc
+
     # generate_html entry point for on fly document generation
     def generate_html
       FileUtils.rm_rf(Rails.root.join('tmp/apidocs'))
@@ -31,31 +35,36 @@ module Apidocs
 
       parse_files @options.files
       @store.complete @options.visibility
-      Apidocs.configuration.regex_filter
-      all_routes = Rails.application.routes.routes
-      inspector = ActionDispatch::Routing::RoutesInspector.new(all_routes)
-      routes = inspector.send(:collect_routes, inspector.send(:filter_routes, nil))\
-         .select { |r| r[:reqs] =~ /#/ and (r[:path] =~ Apidocs.configuration.regex_filter) if Apidocs.configuration.regex_filter}
 
       formatter = RDoc::Markup::ToHtml.new(RDoc::Options.new)
 
-      routes = routes.map do |r|
+      routes = routes_by_regex.map do |r|
         {verb: r[:verb],
          path: r[:path].sub('(.:format)', ''),
          class_name: gen_class_name(r),
          action_name: gen_action_name(r)
         }
-      end
-
-      routes.each do |r|
+      end.each do |r|
         doc = document_route(r)
         r[:html_comment] = doc ? doc.accept(formatter) : ""
-      end
+      end.select { |r| r[:class_name] != "ApidocsController" }
 
-      routes.select { |r| r[:class_name] != "ApidocsController" }
+      puts routes.inspect
+      routes
     end
 
     private
+
+    def routes_by_regex
+      all_routes = Rails.application.routes.routes
+      inspector = ActionDispatch::Routing::RoutesInspector.new(all_routes)
+      routes = inspector.send(:collect_routes, inspector.send(:filter_routes, nil))
+      routes.select { |r| r[:path] =~ regex_filter }
+    end
+
+    def regex_filter
+      Apidocs.configuration.regex_filter || /.*/
+    end
 
     def document_route(r)
       klas = @store.instance_variable_get("@classes_hash")[r[:class_name]]
@@ -90,5 +99,5 @@ module Apidocs
   def self.configure
     yield(configuration)
   end
-
 end
+
